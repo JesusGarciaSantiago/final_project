@@ -5,8 +5,8 @@ const sInput = document.querySelector("[data-search]");
 
 let employees = [];
 
-function init(){
-    if(localStorage.getItem('token')){
+function init() {
+    if (localStorage.getItem('token')) {
         headers = {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -25,7 +25,7 @@ function init(){
                     employee.mail.toLowerCase().includes(value) ||
                     employee.phone.includes(value) ||
                     employee.address.toLowerCase().includes(value) ||
-                    employee.employee_id == value;
+                    employee.employee_id.toString().includes(value);
                 employee.element.classList.toggle("hide", !isVisible);    
             });
         });
@@ -34,7 +34,7 @@ function init(){
     }
 }
 
-function searchEmployee(){
+function searchEmployee() {
     axios.get("http://localhost:3000/admin/", headers).then(res => {
         employees = res.data.message.map(input => {
 
@@ -55,14 +55,14 @@ function searchEmployee(){
             data_mail.textContent = input.mail;
             data_address.textContent = input.address;
 
-            operations = `<a href="edit.html?id=${input.id}" class="btn btn-secondary"><i class="fas fa-marker"></i></a>`;
-            operations += `<a href="delete.html?id=${input.id}" class="btn btn-danger" id="delete"><i class="fas fa-trash-alt"></i></a>`;
+            operations = `<a href="update.html?employee_id=${input.employee_id}" class="btn btn-secondary"><i class="fas fa-marker"></i></a>`;
+            operations += `<a href="delete.html?employee_id=${input.employee_id}" class="btn btn-danger" id="delete"><i class="fas fa-trash-alt"></i></a>`;
             data_operations.innerHTML = operations;
 
             eCC.append(card);
 
             return {
-                employee_id: input.id,
+                employee_id: input.employee_id,
                 name: input.name,
                 last_name: input.last_name,
                 phone: input.phone,
@@ -71,5 +71,5 @@ function searchEmployee(){
                 element: card 
             };
         });
-    });
+    }).catch(err => console.log(err));
 }

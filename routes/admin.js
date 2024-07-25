@@ -64,19 +64,19 @@ admin.delete('/:id([0-9]{1,3})', async (req, res, next)=>{
 });
 
 
-admin.put('/:id([0-9]{1,3})', async(req, res, next)=>{
-
+admin.put('/:id([0-9]{1,3})', async (req, res, next) => {
     const {name, last_name, phone, mail, address} = req.body;
-    if(name && last_name && phone && mail && address){
-        let query = `UPDATE employees SET name='${name}', last_name ='${last_name}',`;
-        query += `phone = '${phone}', mail= '${mail}', address = '${address}'`;
+    const id = req.params.id;
+    if (name && last_name && phone && mail && address) {
+        let query = `UPDATE employees SET name='${name}', last_name='${last_name}',`;
+        query += ` phone='${phone}', mail='${mail}', address='${address}' WHERE employee_id=${id};`;
 
         const rows = await db.query(query);
 
-        if(rows.affectedRows == 1){
-            return res.status(200).json({code: 200, message:"Empleado actualizado"});
+        if (rows.affectedRows == 1) {
+            return res.status(200).json({code: 200, message: "Empleado actualizado"});
         }
-        return res.status(500).json({code: 500, message:"Ocurrió un error"});
+        return res.status(500).json({code: 500, message: "Ocurrió un error"});
     }
     return res.status(500).json({code: 500, message: "Campos incompletos"});
 });
@@ -91,6 +91,18 @@ admin.get('/:name([A-Za-z]+)', async (req, res, next) =>{
     (employee.length > 0) ? res.status(201).json({code: 201, message: employee}) : res.status(404).json({code: 404, message: "Empleado no encontrado"})
 
 });
+
+/*
+employee.get('/:id([0-9]{1,3})', async (req, res, next) => {
+    const id = req.params.id;
+    const size = await db.query(`SELECT count(*) AS size FROM employees;`);
+    if (id >= 1 && id <= size[0].size) {
+        const emp = await db.query(`SELECT * FROM employees WHERE employee_id = '${id}';`);
+        return res.status(200).json({code: 200, message: emp});
+    }
+    return res.status(404).json({code: 404, message: "Employee not found" });
+});
+*/
 
 
 admin.get('/', async (req,res, next)=>{
