@@ -47,7 +47,7 @@ admin.post('/new-employee', async (req, res, next)=>{
 
 
 
-admin.delete("/:id([0-9]{1,3})", async (req, res, next)=>{
+admin.delete('/:id([0-9]{1,3})', async (req, res, next)=>{
     const query = `DELETE FROM employees WHERE employee_id = ${req.params.id} `;
     const rows = await db.query(query);
 
@@ -64,7 +64,7 @@ admin.delete("/:id([0-9]{1,3})", async (req, res, next)=>{
 });
 
 
-admin.put("/:id([0-9]{1,3})", async(req, res, next)=>{
+admin.put('/:id([0-9]{1,3})', async(req, res, next)=>{
 
     const {name, last_name, phone, mail, address} = req.body;
     if(name && last_name && phone && mail && address){
@@ -81,5 +81,23 @@ admin.put("/:id([0-9]{1,3})", async(req, res, next)=>{
     return res.status(500).json({code: 500, message: "Campos incompletos"});
 });
 
+
+
+admin.get('/:name([A-Za-z]+)', async (req, res, next) =>{
+
+    const name = req.params.name.toLowerCase();
+    const employee = await db.query ("SELECT * FROM employees WHERE name = '"+name+"';");
+
+    (employee.length > 0) ? res.status(201).json({code: 201, message: employee}) : res.status(404).json({code: 404, message: "Empleado no encontrado"})
+
+});
+
+
+admin.get('/', async (req,res, next)=>{
+    const query = "SELECT * FROM employees;"
+    const rows = await db.query(query);
+    return res.status(200).json({code: 200, message: rows});
+
+})
 
 module.exports = admin;
