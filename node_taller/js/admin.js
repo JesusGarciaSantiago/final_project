@@ -34,15 +34,15 @@ function displayEmployee(employee) {
     let stringTable = "<thead class=\"table-dark\"><tr><th>Id</th><th>Name</th><th>Last names</th>";
     stringTable += "<th>Phone number</th><th>Email</th><th>Address</th><th>Operations</th></tr></thead><tbody>";
     for (let e of employee) {
-        let row = `<tr><td>${id}</td>`;
-        row += `<td>${name}</td>`;
-        row += `<td>${last_name}</td>`;
-        row += `<td>${phone}</td>`;
-        row += `<td>${mail}</td>`;
-        row += `<td>${address}</td>`;
-        row += `<td><a href=\"edit.html?id=${id}\" class=\"btn btn-secondary\">`;
+        let row = `<tr><td>${e.employee_id}</td>`;
+        row += `<td>${e.name}</td>`;
+        row += `<td>${e.last_name}</td>`;
+        row += `<td>${e.phone}</td>`;
+        row += `<td>${e.mail}</td>`;
+        row += `<td>${e.address}</td>`;
+        row += `<td><a href=\"update.html?employee_id=${e.employee_id}\" class=\"btn btn-secondary\">`;
         row += `<i class=\"fas fa-marker\"></i></a>`;
-        row += `<a href=\"delete.html?id=${id}\" class=\"btn btn-danger\" id=\"delete\">`;
+        row += `<a href=\"delete.html?employee_id=${e.employee_id}\" class=\"btn btn-danger\" id=\"delete\">`;
         row += `<i class=\"fas fa-trash-alt\"></i></a></td></tr>`;
         stringTable += row;
     }

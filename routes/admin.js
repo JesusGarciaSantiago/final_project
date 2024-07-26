@@ -92,17 +92,6 @@ admin.get('/:name([A-Za-z]+)', async (req, res, next) =>{
 
 });
 
-/*
-employee.get('/:id([0-9]{1,3})', async (req, res, next) => {
-    const id = req.params.id;
-    const size = await db.query(`SELECT count(*) AS size FROM employees;`);
-    if (id >= 1 && id <= size[0].size) {
-        const emp = await db.query(`SELECT * FROM employees WHERE employee_id = '${id}';`);
-        return res.status(200).json({code: 200, message: emp});
-    }
-    return res.status(404).json({code: 404, message: "Employee not found" });
-});
-*/
 
 
 admin.get('/', async (req,res, next)=>{
