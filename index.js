@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.get('/', index);
 app.use('/admin', admin);
-app.use (auth);
+//app.use (auth);
 
 app.use(notFound);
 
